@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Store - Thời trang cao cấp</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#3b82f6',secondary:'#f59e0b'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .product-card:hover .quick-view {
+            opacity: 1;
+        }
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+        .product-card img {
+            transition: transform 0.3s ease;
+        }
+        .quick-view {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .custom-checkbox {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .custom-checkbox.checked {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        .custom-checkbox.checked::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 6px;
+            height: 11px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .back-to-top {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-100" id="header">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="text-3xl font-['Pacifico'] text-primary">logo</a>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="w-2/5 relative">
+                    <input type="text" placeholder="Tìm kiếm sản phẩm..." class="w-full py-2 px-4 border border-gray-200 rounded-full text-sm focus:outline-none focus:border-primary">
+                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400">
+                        <i class="ri-search-line"></i>
+                    </div>
+                </div>
+                
+                <!-- User Icons -->
+                <div class="flex items-center space-x-6">
+                    <div class="relative">
+                        <div class="w-6 h-6 flex items-center justify-center cursor-pointer">
+                            <i class="ri-user-line text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="w-6 h-6 flex items-center justify-center cursor-pointer">
+                            <i class="ri-heart-line text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="w-6 h-6 flex items-center justify-center cursor-pointer">
+                            <i class="ri-shopping-bag-line text-xl"></i>
+                            <span class="absolute -top-2 -right-2 w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs">3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <nav class="mt-4">
+                <ul class="flex justify-center space-x-10">
+                    <li><a href="#" class="font-medium text-gray-800 hover:text-primary transition-colors">Nam</a></li>
+                    <li><a href="#" class="font-medium text-gray-800 hover:text-primary transition-colors">Nữ</a></li>
+                    <li><a href="#" class="font-medium text-gray-800 hover:text-primary transition-colors">Trẻ em</a></li>
+                    <li><a href="#" class="font-medium text-primary hover:text-primary/80 transition-colors">Bộ sưu tập mới</a></li>
+                    <li><a href="#" class="font-medium text-red-500 hover:text-red-600 transition-colors">Sale</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Banner -->
+    <section class="relative h-[500px] overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-gray-900/70 to-transparent z-10"></div>
+        <img src="https://readdy.ai/api/search-image?query=modern%20fashion%20photography%20with%20stylish%20models%20wearing%20trendy%20clothes%2C%20high-end%20fashion%20shoot%20with%20professional%20lighting%2C%20elegant%20models%20showcasing%20latest%20fashion%20collection%2C%20clean%20studio%20background%2C%20fashion%20advertisement%20style&width=1600&height=800&seq=1&orientation=landscape" alt="Fashion Collection" class="w-full h-full object-cover object-top">
+        
+        <div class="absolute inset-0 z-20 flex items-center">
+            <div class="container mx-auto px-4">
+                <div class="max-w-lg">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Bộ Sưu Tập Mùa Hè 2025</h1>
+                    <p class="text-xl text-white/90 mb-8">Khám phá xu hướng thời trang mới nhất với ưu đãi giảm giá lên đến 50%</p>
+                    <div class="flex space-x-4">
+                        <button class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">Mua sắm ngay</button>
+                        <button class="bg-white text-gray-800 px-6 py-3 rounded-button font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">Xem bộ sưu tập</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Banner Navigation -->
+        <div class="absolute z-30 bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+            <button class="w-3 h-3 rounded-full bg-white"></button>
+            <button class="w-3 h-3 rounded-full bg-white opacity-50"></button>
+        </div>
+        
+        <!-- Slider Controls -->
+        <button class="absolute z-30 left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors">
+            <i class="ri-arrow-left-s-line text-2xl"></i>
+        </button>
+        <button class="absolute z-30 right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors">
+            <i class="ri-arrow-right-s-line text-2xl"></i>
+        </button>
+    </section>
+
+    <!-- Featured Categories -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Danh Mục Nổi Bật</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Category 1 -->
+                <div class="group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <img src="https://readdy.ai/api/search-image?query=stylish%20modern%20shirts%20and%20t-shirts%20for%20men%20and%20women%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=500&height=600&seq=2&orientation=portrait" alt="Áo" class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                        <div class="p-6 w-full">
+                            <h3 class="text-xl font-bold text-white">Áo</h3>
+                            <div class="mt-2 w-10 h-0.5 bg-primary group-hover:w-20 transition-all duration-300"></div>
+                            <p class="mt-2 text-white/80 text-sm">Hơn 200 sản phẩm</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 2 -->
+                <div class="group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <img src="https://readdy.ai/api/search-image?query=stylish%20pants%2C%20jeans%20and%20trousers%20for%20men%20and%20women%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=500&height=600&seq=3&orientation=portrait" alt="Quần" class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                        <div class="p-6 w-full">
+                            <h3 class="text-xl font-bold text-white">Quần</h3>
+                            <div class="mt-2 w-10 h-0.5 bg-primary group-hover:w-20 transition-all duration-300"></div>
+                            <p class="mt-2 text-white/80 text-sm">Hơn 150 sản phẩm</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 3 -->
+                <div class="group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <img src="https://readdy.ai/api/search-image?query=elegant%20dresses%20and%20skirts%20for%20women%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=500&height=600&seq=4&orientation=portrait" alt="Đầm" class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                        <div class="p-6 w-full">
+                            <h3 class="text-xl font-bold text-white">Đầm</h3>
+                            <div class="mt-2 w-10 h-0.5 bg-primary group-hover:w-20 transition-all duration-300"></div>
+                            <p class="mt-2 text-white/80 text-sm">Hơn 120 sản phẩm</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 4 -->
+                <div class="group relative overflow-hidden rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <img src="https://readdy.ai/api/search-image?query=fashion%20accessories%20like%20bags%2C%20hats%2C%20jewelry%2C%20and%20watches%2C%20fashion%20items%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=500&height=600&seq=5&orientation=portrait" alt="Phụ kiện" class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                        <div class="p-6 w-full">
+                            <h3 class="text-xl font-bold text-white">Phụ kiện</h3>
+                            <div class="mt-2 w-10 h-0.5 bg-primary group-hover:w-20 transition-all duration-300"></div>
+                            <p class="mt-2 text-white/80 text-sm">Hơn 180 sản phẩm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Products -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-3xl font-bold">Sản Phẩm Mới</h2>
+                <div class="flex space-x-2">
+                    <button class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:border-primary hover:text-primary transition-colors">
+                        <i class="ri-arrow-left-s-line text-xl"></i>
+                    </button>
+                    <button class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:border-primary hover:text-primary transition-colors">
+                        <i class="ri-arrow-right-s-line text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Product 1 -->
+                <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="relative overflow-hidden h-80">
+                        <span class="absolute top-3 left-3 z-10 bg-primary text-white text-xs font-medium px-2 py-1 rounded">Mới</span>
+                        <img src="https://readdy.ai/api/search-image?query=elegant%20white%20blouse%20for%20women%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=400&height=500&seq=6&orientation=portrait" alt="Áo Sơ Mi Nữ" class="w-full h-full object-cover object-top">
+                        <div class="quick-view absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <button class="bg-white text-gray-800 px-4 py-2 rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">Xem nhanh</button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-half-fill text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-500 ml-1">(45)</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-1">Áo Sơ Mi Nữ Tay Dài</h3>
+                        <p class="text-primary font-bold">599.000 ₫</p>
+                        <div class="mt-3 flex justify-between items-center">
+                            <div class="flex space-x-1">
+                                <span class="w-5 h-5 rounded-full bg-white border border-gray-300 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-blue-200 border border-gray-300 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-pink-200 border border-gray-300 cursor-pointer"></span>
+                            </div>
+                            <button class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:bg-primary hover:text-white transition-colors">
+                                <i class="ri-shopping-bag-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="relative overflow-hidden h-80">
+                        <span class="absolute top-3 left-3 z-10 bg-primary text-white text-xs font-medium px-2 py-1 rounded">Mới</span>
+                        <img src="https://readdy.ai/api/search-image?query=mens%20casual%20t-shirt%20in%20dark%20blue%20color%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=400&height=500&seq=7&orientation=portrait" alt="Áo Thun Nam" class="w-full h-full object-cover object-top">
+                        <div class="quick-view absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <button class="bg-white text-gray-800 px-4 py-2 rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">Xem nhanh</button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-line text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-500 ml-1">(32)</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-1">Áo Thun Nam Cotton</h3>
+                        <p class="text-primary font-bold">349.000 ₫</p>
+                        <div class="mt-3 flex justify-between items-center">
+                            <div class="flex space-x-1">
+                                <span class="w-5 h-5 rounded-full bg-blue-900 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-gray-800 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-red-800 cursor-pointer"></span>
+                            </div>
+                            <button class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:bg-primary hover:text-white transition-colors">
+                                <i class="ri-shopping-bag-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="relative overflow-hidden h-80">
+                        <span class="absolute top-3 left-3 z-10 bg-primary text-white text-xs font-medium px-2 py-1 rounded">Mới</span>
+                        <img src="https://readdy.ai/api/search-image?query=elegant%20summer%20dress%20for%20women%20in%20floral%20pattern%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=400&height=500&seq=8&orientation=portrait" alt="Đầm Hoa" class="w-full h-full object-cover object-top">
+                        <div class="quick-view absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <button class="bg-white text-gray-800 px-4 py-2 rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">Xem nhanh</button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-500 ml-1">(67)</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-1">Đầm Hoa Nữ Mùa Hè</h3>
+                        <p class="text-primary font-bold">799.000 ₫</p>
+                        <div class="mt-3 flex justify-between items-center">
+                            <div class="flex space-x-1">
+                                <span class="w-5 h-5 rounded-full bg-blue-100 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-pink-100 cursor-pointer"></span>
+                            </div>
+                            <button class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:bg-primary hover:text-white transition-colors">
+                                <i class="ri-shopping-bag-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="relative overflow-hidden h-80">
+                        <span class="absolute top-3 left-3 z-10 bg-primary text-white text-xs font-medium px-2 py-1 rounded">Mới</span>
+                        <img src="https://readdy.ai/api/search-image?query=stylish%20denim%20jeans%20for%20men%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=400&height=500&seq=9&orientation=portrait" alt="Quần Jeans Nam" class="w-full h-full object-cover object-top">
+                        <div class="quick-view absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <button class="bg-white text-gray-800 px-4 py-2 rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">Xem nhanh</button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-half-fill text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-500 ml-1">(28)</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-1">Quần Jeans Nam Slim Fit</h3>
+                        <p class="text-primary font-bold">649.000 ₫</p>
+                        <div class="mt-3 flex justify-between items-center">
+                            <div class="flex space-x-1">
+                                <span class="w-5 h-5 rounded-full bg-blue-800 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-gray-700 cursor-pointer"></span>
+                            </div>
+                            <button class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:bg-primary hover:text-white transition-colors">
+                                <i class="ri-shopping-bag-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <button class="px-6 py-3 border border-gray-300 rounded-button font-medium hover:border-primary hover:text-primary transition-colors whitespace-nowrap">Xem thêm sản phẩm</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hot Promotions -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="bg-gradient-to-r from-primary to-blue-700 rounded-xl overflow-hidden">
+                <div class="flex flex-col md:flex-row">
+                    <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                        <span class="text-white/80 text-sm font-medium uppercase tracking-wider mb-2">Ưu đãi đặc biệt</span>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Giảm Giá Mùa Hè</h2>
+                        <p class="text-white/90 mb-6">Giảm giá lên đến 50% cho các sản phẩm mùa hè. Nhanh tay mua sắm trước khi hết hàng!</p>
+                        
+                        <div class="flex space-x-4 mb-6">
+                            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center">
+                                <span class="block text-2xl font-bold text-white">02</span>
+                                <span class="text-xs text-white/80">Ngày</span>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center">
+                                <span class="block text-2xl font-bold text-white">18</span>
+                                <span class="text-xs text-white/80">Giờ</span>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center">
+                                <span class="block text-2xl font-bold text-white">45</span>
+                                <span class="text-xs text-white/80">Phút</span>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-center">
+                                <span class="block text-2xl font-bold text-white">32</span>
+                                <span class="text-xs text-white/80">Giây</span>
+                            </div>
+                        </div>
+                        
+                        <button class="bg-white text-primary px-6 py-3 rounded-button font-medium hover:bg-gray-100 transition-colors self-start whitespace-nowrap">Mua sắm ngay</button>
+                    </div>
+                    <div class="w-full md:w-1/2 relative">
+                        <img src="https://readdy.ai/api/search-image?query=summer%20fashion%20collection%20with%20models%20wearing%20light%20colorful%20clothes%2C%20beach%20fashion%2C%20summer%20style%20clothing%2C%20professional%20fashion%20photography%20with%20clean%20background&width=600&height=500&seq=10&orientation=landscape" alt="Summer Sale" class="w-full h-full object-cover object-top">
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="text-3xl font-bold mt-16 mb-10">Sản Phẩm Khuyến Mãi</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Sale Product 1 -->
+                <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="relative overflow-hidden h-80">
+                        <span class="absolute top-3 left-3 z-10 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded">-30%</span>
+                        <img src="https://readdy.ai/api/search-image?query=womens%20blouse%20in%20pastel%20color%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=400&height=500&seq=11&orientation=portrait" alt="Áo Kiểu Nữ" class="w-full h-full object-cover object-top">
+                        <div class="quick-view absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <button class="bg-white text-gray-800 px-4 py-2 rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">Xem nhanh</button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-line text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-500 ml-1">(23)</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-1">Áo Kiểu Nữ Tay Phồng</h3>
+                        <div class="flex items-center">
+                            <p class="text-primary font-bold">399.000 ₫</p>
+                            <p class="text-gray-400 line-through text-sm ml-2">569.000 ₫</p>
+                        </div>
+                        <div class="mt-3 flex justify-between items-center">
+                            <div class="flex space-x-1">
+                                <span class="w-5 h-5 rounded-full bg-pink-200 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-blue-200 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-yellow-200 cursor-pointer"></span>
+                            </div>
+                            <button class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:bg-primary hover:text-white transition-colors">
+                                <i class="ri-shopping-bag-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sale Product 2 -->
+                <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="relative overflow-hidden h-80">
+                        <span class="absolute top-3 left-3 z-10 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded">-40%</span>
+                        <img src="https://readdy.ai/api/search-image?query=mens%20casual%20shirt%20in%20light%20color%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=400&height=500&seq=12&orientation=portrait" alt="Áo Sơ Mi Nam" class="w-full h-full object-cover object-top">
+                        <div class="quick-view absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <button class="bg-white text-gray-800 px-4 py-2 rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">Xem nhanh</button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-half-fill text-sm"></i>
+                                <i class="ri-star-line text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-500 ml-1">(19)</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-1">Áo Sơ Mi Nam Ngắn Tay</h3>
+                        <div class="flex items-center">
+                            <p class="text-primary font-bold">329.000 ₫</p>
+                            <p class="text-gray-400 line-through text-sm ml-2">549.000 ₫</p>
+                        </div>
+                        <div class="mt-3 flex justify-between items-center">
+                            <div class="flex space-x-1">
+                                <span class="w-5 h-5 rounded-full bg-white border border-gray-300 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-blue-100 cursor-pointer"></span>
+                            </div>
+                            <button class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:bg-primary hover:text-white transition-colors">
+                                <i class="ri-shopping-bag-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sale Product 3 -->
+                <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="relative overflow-hidden h-80">
+                        <span class="absolute top-3 left-3 z-10 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded">-25%</span>
+                        <img src="https://readdy.ai/api/search-image?query=womens%20casual%20pants%20in%20beige%20color%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=400&height=500&seq=13&orientation=portrait" alt="Quần Nữ" class="w-full h-full object-cover object-top">
+                        <div class="quick-view absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <button class="bg-white text-gray-800 px-4 py-2 rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">Xem nhanh</button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-500 ml-1">(42)</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-1">Quần Dài Nữ Ống Suông</h3>
+                        <div class="flex items-center">
+                            <p class="text-primary font-bold">449.000 ₫</p>
+                            <p class="text-gray-400 line-through text-sm ml-2">599.000 ₫</p>
+                        </div>
+                        <div class="mt-3 flex justify-between items-center">
+                            <div class="flex space-x-1">
+                                <span class="w-5 h-5 rounded-full bg-yellow-100 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-gray-200 cursor-pointer"></span>
+                            </div>
+                            <button class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:bg-primary hover:text-white transition-colors">
+                                <i class="ri-shopping-bag-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sale Product 4 -->
+                <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="relative overflow-hidden h-80">
+                        <span class="absolute top-3 left-3 z-10 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded">-50%</span>
+                        <img src="https://readdy.ai/api/search-image?query=stylish%20handbag%20for%20women%20in%20brown%20color%2C%20fashion%20accessory%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=400&height=500&seq=14&orientation=portrait" alt="Túi Xách Nữ" class="w-full h-full object-cover object-top">
+                        <div class="quick-view absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <button class="bg-white text-gray-800 px-4 py-2 rounded-button text-sm font-medium hover:bg-gray-100 transition-colors whitespace-nowrap">Xem nhanh</button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-fill text-sm"></i>
+                                <i class="ri-star-half-fill text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-500 ml-1">(37)</span>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-1">Túi Xách Nữ Thời Trang</h3>
+                        <div class="flex items-center">
+                            <p class="text-primary font-bold">599.000 ₫</p>
+                            <p class="text-gray-400 line-through text-sm ml-2">1.199.000 ₫</p>
+                        </div>
+                        <div class="mt-3 flex justify-between items-center">
+                            <div class="flex space-x-1">
+                                <span class="w-5 h-5 rounded-full bg-yellow-800 cursor-pointer"></span>
+                                <span class="w-5 h-5 rounded-full bg-gray-800 cursor-pointer"></span>
+                            </div>
+                            <button class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:bg-primary hover:text-white transition-colors">
+                                <i class="ri-shopping-bag-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-4">Đăng Ký Nhận Thông Tin</h2>
+                <p class="text-gray-600 mb-8">Đăng ký để nhận thông tin về các bộ sưu tập mới và ưu đãi đặc biệt.</p>
+                <div class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                    <input type="email" placeholder="Nhập email của bạn" class="flex-1 px-4 py-3 border border-gray-300 rounded-button focus:outline-none focus:border-primary text-sm">
+                    <button class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">Đăng ký</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Column 1 -->
+                <div>
+                    <a href="#" class="text-3xl font-['Pacifico'] text-white mb-6 block">logo</a>
+                    <p class="text-gray-400 mb-6">Thương hiệu thời trang hàng đầu Việt Nam với sứ mệnh mang đến phong cách thời trang hiện đại và chất lượng.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition-colors">
+                            <i class="ri-facebook-fill text-lg"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition-colors">
+                            <i class="ri-instagram-fill text-lg"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition-colors">
+                            <i class="ri-twitter-fill text-lg"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition-colors">
+                            <i class="ri-youtube-fill text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="text-lg font-bold mb-6">Thông Tin</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Về chúng tôi</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Liên hệ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Tin tức</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cửa hàng</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Tuyển dụng</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="text-lg font-bold mb-6">Hỗ Trợ Khách Hàng</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Chính sách đổi trả</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Điều khoản dịch vụ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Câu hỏi thường gặp</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="text-lg font-bold mb-6">Liên Hệ</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3 mt-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span class="text-gray-400">123 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3 mt-1">
+                                <i class="ri-phone-line"></i>
+                            </div>
+                            <span class="text-gray-400">+84 28 1234 5678</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3 mt-1">
+                                <i class="ri-mail-line"></i>
+                            </div>
+                            <span class="text-gray-400">contact@fashionstore.com</span>
+                        </li>
+                    </ul>
+                    
+                    <h3 class="text-lg font-bold mt-8 mb-4">Phương Thức Thanh Toán</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="w-10 h-6 flex items-center justify-center bg-white rounded">
+                            <i class="ri-visa-fill text-blue-800 text-lg"></i>
+                        </div>
+                        <div class="w-10 h-6 flex items-center justify-center bg-white rounded">
+                            <i class="ri-mastercard-fill text-red-500 text-lg"></i>
+                        </div>
+                        <div class="w-10 h-6 flex items-center justify-center bg-white rounded">
+                            <i class="ri-paypal-fill text-blue-600 text-lg"></i>
+                        </div>
+                        <div class="w-10 h-6 flex items-center justify-center bg-white rounded">
+                            <i class="ri-bank-card-fill text-gray-800 text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-500 text-sm">© 2025 Fashion Store. Tất cả các quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top fixed bottom-6 right-6 w-12 h-12 flex items-center justify-center bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition-all">
+        <i class="ri-arrow-up-line text-xl"></i>
+    </button>
+
+    <!-- Newsletter Popup -->
+    <div id="newsletterPopup" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md overflow-hidden">
+            <div class="relative">
+                <img src="https://readdy.ai/api/search-image?query=fashion%20clothing%20display%20with%20elegant%20arrangement%2C%20stylish%20fashion%20items%20neatly%20organized%2C%20professional%20fashion%20photography%20with%20clean%20background&width=600&height=300&seq=15&orientation=landscape" alt="Newsletter" class="w-full h-48 object-cover object-top">
+                <button id="closePopup" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Đăng Ký Nhận Ưu Đãi</h3>
+                <p class="text-gray-600 mb-4">Đăng ký để nhận thông báo về các bộ sưu tập mới và ưu đãi đặc biệt lên đến 20%.</p>
+                <input type="email" placeholder="Email của bạn" class="w-full px-4 py-3 border border-gray-300 rounded-button mb-4 focus:outline-none focus:border-primary text-sm">
+                <button class="w-full bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">Đăng ký ngay</button>
+                <div class="mt-4 flex items-center">
+                    <div id="dontShowAgain" class="custom-checkbox"></div>
+                    <label for="dontShowAgain" class="ml-2 text-sm text-gray-600 cursor-pointer">Không hiển thị lại</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div id="quickViewModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl overflow-hidden">
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-1/2 p-6">
+                    <img src="https://readdy.ai/api/search-image?query=elegant%20white%20blouse%20for%20women%2C%20fashion%20clothing%20on%20clean%20background%2C%20professional%20product%20photography%2C%20high-quality%20fashion%20catalog%20style&width=500&height=600&seq=16&orientation=portrait" alt="Áo Sơ Mi Nữ" class="w-full h-auto object-cover object-top">
+                </div>
+                <div class="w-full md:w-1/2 p-6">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-2xl font-bold text-gray-800">Áo Sơ Mi Nữ Tay Dài</h3>
+                        <button id="closeQuickView" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600">
+                            <i class="ri-close-line text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center mt-2 mb-4">
+                        <div class="flex text-yellow-400">
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-half-fill"></i>
+                        </div>
+                        <span class="text-sm text-gray-500 ml-2">(45 đánh giá)</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <p class="text-2xl font-bold text-primary">599.000 ₫</p>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Áo sơ mi nữ chất liệu cotton cao cấp, thiết kế thanh lịch, phù hợp cho công sở và các dịp thường ngày.</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2">Màu sắc</h4>
+                        <div class="flex space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-white border-2 border-primary cursor-pointer"></div>
+                            <div class="w-8 h-8 rounded-full bg-blue-200 border border-gray-300 cursor-pointer"></div>
+                            <div class="w-8 h-8 rounded-full bg-pink-200 border border-gray-300 cursor-pointer"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-2">Kích thước</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="px-3 py-2 border border-gray-300 rounded text-sm hover:border-primary hover:text-primary whitespace-nowrap">S</button>
+                            <button class="px-3 py-2 border border-primary bg-primary/5 rounded text-sm text-primary whitespace-nowrap">M</button>
+                            <button class="px-3 py-2 border border-gray-300 rounded text-sm hover:border-primary hover:text-primary whitespace-nowrap">L</button>
+                            <button class="px-3 py-2 border border-gray-300 rounded text-sm hover:border-primary hover:text-primary whitespace-nowrap">XL</button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center mb-6">
+                        <div class="flex items-center border border-gray-300 rounded-button mr-4">
+                            <button id="decreaseQuantity" class="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-primary">
+                                <i class="ri-subtract-line"></i>
+                            </button>
+                            <input type="number" id="quantity" value="1" min="1" class="w-12 h-10 text-center border-none focus:outline-none">
+                            <button id="increaseQuantity" class="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-primary">
+                                <i class="ri-add-line"></i>
+                            </button>
+                        </div>
+                        <span class="text-sm text-gray-500">Còn 24 sản phẩm</span>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button class="flex-1 bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">
+                            <i class="ri-shopping-bag-line mr-2"></i> Thêm vào giỏ hàng
+                        </button>
+                        <button class="w-12 h-12 flex items-center justify-center border border-gray-300 rounded-full hover:border-primary hover:text-primary transition-colors">
+                            <i class="ri-heart-line text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="stickyHeaderScript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('header');
+            const backToTop = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    header.classList.add('sticky-header');
+                    backToTop.classList.add('visible');
+                } else {
+                    header.classList.remove('sticky-header');
+                    backToTop.classList.remove('visible');
+                }
+            });
+            
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+    <script id="newsletterPopupScript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsletterPopup = document.getElementById('newsletterPopup');
+            const closePopup = document.getElementById('closePopup');
+            const dontShowAgain = document.getElementById('dontShowAgain');
+            
+            // Show popup after 3 seconds
+            if (!localStorage.getItem('hideNewsletterPopup')) {
+                setTimeout(function() {
+                    newsletterPopup.classList.remove('hidden');
+                }, 3000);
+            }
+            
+            closePopup.addEventListener('click', function() {
+                newsletterPopup.classList.add('hidden');
+            });
+            
+            dontShowAgain.addEventListener('click', function() {
+                this.classList.toggle('checked');
+                if (this.classList.contains('checked')) {
+                    localStorage.setItem('hideNewsletterPopup', 'true');
+                } else {
+                    localStorage.removeItem('hideNewsletterPopup');
+                }
+            });
+        });
+    </script>
+
+    <script id="quickViewScript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const quickViewButtons = document.querySelectorAll('.quick-view button');
+            const quickViewModal = document.getElementById('quickViewModal');
+            const closeQuickView = document.getElementById('closeQuickView');
+            const decreaseQuantity = document.getElementById('decreaseQuantity');
+            const increaseQuantity = document.getElementById('increaseQuantity');
+            const quantity = document.getElementById('quantity');
+            
+            quickViewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    quickViewModal.classList.remove('hidden');
+                });
+            });
+            
+            closeQuickView.addEventListener('click', function() {
+                quickViewModal.classList.add('hidden');
+            });
+            
+            decreaseQuantity.addEventListener('click', function() {
+                if (parseInt(quantity.value) > 1) {
+                    quantity.value = parseInt(quantity.value) - 1;
+                }
+            });
+            
+            increaseQuantity.addEventListener('click', function() {
+                quantity.value = parseInt(quantity.value) + 1;
+            });
+        });
+    </script>
+</body>
+</html>
